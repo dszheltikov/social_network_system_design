@@ -1,0 +1,1679 @@
+openapi: 3.0.4
+info:
+  title: Travelers Journal
+  version: 1.0.1 | 27.08.2025
+  description: API социальной сети для путешественников Travelers Journal
+  termsOfService: https://4travelers.com/terms/
+  contact:
+    name: "API Support"
+    email: apisupport@4travelers.com
+security:
+  - BearerAuth: []
+  - OAuth2: []
+servers:
+  - url: /api/v1
+tags:
+  - name: Users
+    description: Операции c пользователями
+  - name: UsersLists
+    description: Операции cо списками пользователей
+  - name: Subscriptions
+    description: Операции подписки / отписки
+  - name: Posts
+    description: Операции c постами
+  - name: Feed
+    description: Операции c лентами постов
+  - name: Reactions
+    description: Операции c реакциями
+  - name: Comments
+    description: Операции c комментариями
+  - name: Locations
+    description: Операции c местами для путешествий
+  - name: Media
+    description: Операции c медиа (фото)
+
+paths:
+  /media:
+    post:
+      tags:
+        - Media
+      summary: Загрузка медиа (фото)
+      description: Загружает медиа (фото) на сервер для дальнейшего использования в профиле пользователя, постах и т.п.
+      operationId: uploadMedia
+      deprecated: false
+      requestBody:
+        description: Данные медиа (фото) для загрузки на сервер
+        required: true
+        content:
+          'image/jpeg':
+            schema:
+              type: string
+              format: binary
+          'image/png':
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadMediaRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          $ref: '#/components/responses/ContentTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Получение профиля пользователя
+      description: Метод возвращает профиль пользователя
+      operationId: getUserProfiles
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description:  Данные профиля пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    patch:
+      tags:
+        - Users
+      summary: Редактирование профиля пользователя
+      description: Метод позволяет изменить информацию в профиле пользователя
+      operationId: updateUserProfile
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        description: Параметры для обновления профиля пользователя
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserProfileRq'  
+      responses:
+        '200':
+          description:  Operation Complete
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+  
+  /users:
+    get:
+      tags:
+        - UsersLists
+      summary: Получение списка пользователей
+      description: Метод возвращает список пользователей с фильтрацией или без
+      operationId: getUsers
+      deprecated: false
+      parameters:
+        - name: name
+          in: query
+          description: Имя
+          required: false
+          schema:
+            type: string
+            maxLength: 125
+            example: "John McClane"
+        - name: username
+          in: query
+          description: Имя пользователя (логин)
+          required: false
+          schema:
+            type: string
+            maxLength: 30
+            example: "die_hard_007"
+        - name: city
+          in: query
+          description: Город
+          required: false
+          schema:
+            type: string
+            maxLength: 50
+            example: "Барнаул"
+        - name: limit
+          in: query
+          description: Максимальное количество записей, которое может быть получено в ответе
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          description: Номер страницы пагинации
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersListRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+        
+  /users/{userId}/subscriptions-lists:
+    get:
+      tags:
+        - UsersLists
+      summary: Получение списка по подпискам пользователя (список подписок/список подписчиков)
+      description: В ответе возвращается список подписок либо список подписчиков пользователя
+      operationId: getSubscriptionsList
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/subscriptionsListType'
+        - name: limit
+          in: query
+          description: Максимальное количество записей, которое может быть получено в ответе
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          description: Номер страницы пагинации
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersListRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+  
+  /users/{userId}/subscriptions:
+    post:
+      tags:
+        - Subscriptions
+      summary: Подписаться на пользователя
+      description: Метод позволяет подписаться на пользователя
+      operationId: createSubscription
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewSubscriptionRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Subscriptions
+      summary: Отписаться от пользователя
+      description: Метод позволяет отписаться от пользователя (удалить подписку)
+      operationId: deleteSubscription
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          $ref: '#/components/responses/OperationComplete'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /feed:
+    get:
+      tags:
+        - Feed
+      summary: Получение ленты постов
+      description: Метод позволяет получить ленту постов пользователя, ленту постов по подпискам пользователя, ленту постов по месту путешествия (в зависимости от параметров запроса)
+      operationId: getFeed
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/feedType'
+        - name: userId
+          in: query
+          description: Id пользователя. Передается для получения ленты постов пользователя и ленты постов по подпискам пользователя
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        - name: locationId
+          in: query
+          description: Id места путешествия. Передается для получения ленты постов по месту путешествия
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        - name: limit
+          in: query
+          description: Максимальное количество записей, которое может быть получено в ответе
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          description: Номер страницы пагинации
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    post:
+      tags:
+        - Posts
+      summary: Создание нового поста
+      description: Метод позволяет создать новый пост
+      operationId: createPost
+      deprecated: false
+      requestBody:
+        description: Параметры нового поста
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPostRq'  
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewPostRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /posts/{postId}:
+    get:
+      tags:
+        - Posts
+      summary: Получение данных поста
+      description: Метод возвращает подробные данные одного поста
+      operationId: getPost
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+      responses:
+        '200':
+          description:  Данные поста
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    patch:
+      tags:
+        - Posts
+      summary: Редактирование поста
+      description: Метод позволяет изменить информацию в посте
+      operationId: updatePost
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+      requestBody:
+        description: Параметры для обновления поста
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePostRq'  
+      responses:
+        '200':
+          description:  Operation Complete
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    delete:
+      tags:
+        - Posts
+      summary: Удаление поста
+      description: Метод позволяет удалить пост
+      operationId: deletePost
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+      responses:
+        '200':
+          $ref: '#/components/responses/OperationComplete'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  
+  /posts/{postId}/reactions:
+    get:
+      tags:
+        - Reactions
+      summary: Получение реакций на пост
+      description: Метод позволяет получить список реакций на пост
+      operationId: getReactions
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+        - name: limit
+          in: query
+          description: Максимальное количество записей, которое может быть получено в ответе
+          required: false
+          schema:
+            type: integer
+            default: 50
+        - name: page
+          in: query
+          description: Номер страницы пагинации
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReactionsRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    post:
+      tags:
+        - Reactions
+      summary: Создание реакции на пост
+      description: Метод позволяет поставить реакцию на пост
+      operationId: createReaction
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+      requestBody:
+        description: Параметры реакции на пост
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewReactionRq'  
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewReactionRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    delete:
+      tags:
+        - Reactions
+      summary: Удаление реакции на пост
+      description: Метод позволяет удалить реакцию пользователя на пост
+      operationId: deleteReaction
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+        - name: userId
+          in: query
+          description: Id пользователя, реакцию которого требуется удалить
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+      responses:
+        '200':
+          $ref: '#/components/responses/OperationComplete'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+          
+  /posts/{postId}/comments:
+    get:
+      tags:
+        - Comments
+      summary: Получение комментариев к посту
+      description: Метод позволяет получить список комментариев к посту
+      operationId: getComments
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+        - name: limit
+          in: query
+          description: Максимальное количество записей, которое может быть получено в ответе
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          description: Номер страницы пагинации
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentsRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    post:
+      tags:
+        - Comments
+      summary: Создание комментария к посту
+      description: Метод позволяет оставить комментарий к посту
+      operationId: createComment
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+      requestBody:
+        description: Параметры комментария к посту
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCommentRq'  
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewCommentRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    put:
+      tags:
+        - Comments
+      summary: Редактирование комментария
+      description: Метод позволяет изменить комментарий к посту
+      operationId: updateComment
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+      requestBody:
+        description: Параметры для обновления комментария
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommentRq'  
+      responses:
+        '200':
+          description:  Operation Complete
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    delete:
+      tags:
+        - Comments
+      summary: Удаление комментария к посту
+      description: Метод позволяет удалить комментарий к посту
+      operationId: deleteComment
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/postId'
+        - name: commentId
+          in: query
+          description: Id комментария, который требуется удалить
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+      responses:
+        '200':
+          $ref: '#/components/responses/OperationComplete'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+          
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: Получение списка мест путешествий
+      description: Метод возвращает список мест путешествий с фильтрацией или без
+      operationId: getLocations
+      deprecated: false
+      parameters:
+        - name: name
+          in: query
+          description: Наименование места путешествия
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+            example: "Ступа Боднатх"  
+        - name: latitude
+          in: query
+          description: Широта
+          required: false
+          schema:
+            type: string
+            example: "27.7227"
+        - name: longtitude
+          in: query
+          description: Долгота
+          required: false
+          schema:
+            type: string
+            example: "85.3641"
+        - name: country
+          in: query
+          description: Страна
+          required: false
+          schema:
+            type: string
+            maxLength: 65
+            example: "Непал"
+        - name: category
+          in: query
+          description: Категория
+          required: false
+          schema:
+            type: string
+            maxLength: 50
+            example: "Храмовый комплекс"
+        - name: limit
+          in: query
+          description: Максимальное количество записей, которое может быть получено в ответе
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          description: Номер страницы пагинации
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationsRp'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+          
+  /locations/{locationId}:
+    get:
+      tags:
+        - Locations
+      summary: Получение данных места путешествия
+      description: Метод возвращает подробные данные места путешествия
+      operationId: getLocationCard
+      deprecated: false
+      parameters:
+        - $ref: '#/components/parameters/locationId'
+      responses:
+        '200':
+          description:  Данные места путешествия
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+    
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://auth.4travelers.com/auth/realms/polo/protocol/openid-connect/token
+          scopes: {}
+
+  parameters:
+    userId:
+      name: userId
+      in: path
+      description: Идентификатор пользователя
+      required: true
+      schema:
+        type: string
+        format: uuid
+    postId:
+      name: postId
+      in: path
+      description: Идентификатор поста
+      required: true
+      schema:
+        type: string
+        format: uuid
+    locationId:
+      name: locationId
+      in: path
+      description: Идентификатор места путешествия
+      required: true
+      schema:
+        type: string
+        format: uuid
+    subscriptionsListType:
+      name: subscriptionsListType
+      in: query
+      description: Тип списка подписок
+      required: true
+      schema:
+        type: string
+        enum:
+          - Subscriptions
+          - Followers
+    feedType:
+      name: feedType
+      in: query
+      description: Тип ленты постов
+      required: true
+      schema:
+        type: string
+        enum:
+          - UsersFeed
+          - SubscriptionsFeed
+          - LocationsFeed
+
+  responses:
+    OperationComplete:
+      description: Operation Complete
+    Created:
+      description: Created
+    NoContent:
+      description: No Content
+    BadRequest:
+      description: Bad Request
+    Unauthorized:
+      description: Unauthorized
+    Forbidden:
+      description: Forbidden
+    NotFound:
+      description: Not Found
+    ContentTooLarge:
+      description: Content Too Large
+    UnsupportedMediaType:
+      description: Unsupported Media Type
+    UnprocessableEntity:    
+      description: Unprocessable Entity
+    InternalServerError:
+      description: Internal Server Error
+    GatewayTimeout:
+      description: Gateway Timeout
+    BadGateway:
+      description: Bad Gateway
+  
+  schemas:
+    UploadMediaRp:
+      description: Данные загруженного файла медиа (фото)
+      type: object
+      additionalProperties: false
+      required: 
+        - mediaId
+        - url
+      properties:
+        mediaId:
+          description: Идентификатор файла медиа (фото)
+          type: string
+          format: uuid
+          nullable: false
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        url:
+          description: URL файла медиа (фото)
+          type: string
+          format: uri
+          nullable: false
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+    
+    UserProfile:
+      description: Профиль пользователя
+      type: object
+      additionalProperties: false
+      required: 
+        - userId
+        - name
+        - username
+        - sex
+      properties:
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        name:
+          description: Имя
+          type: string
+          maxLength: 125
+          example: "John McClane"
+        username:
+          description: Имя пользователя (логин)
+          type: string
+          maxLength: 30
+          example: "die_hard_007"
+        birthDate:
+          description: Дата рождения пользователя
+          type: string
+          format: date
+          nullable: true
+          example: "2023-02-25"
+        sex:
+          $ref: '#/components/schemas/Sex'
+        city:
+          description: Город
+          type: string
+          maxLength: 50
+          nullable: true
+          example: "Барнаул"
+        userStatus:
+          description: Пользовательский статус
+          type: string
+          maxLength: 50
+          nullable: true
+          example: "В Турции! Кому пахлавы привезти?)"
+        about:
+          description: Информация о себе
+          type: string
+          maxLength: 150
+          nullable: true
+          example: "Фыва, пролдж и тот еще йцукен"
+        photo:
+          description: Фото пользователя (аватар)
+          type: string
+          format: uri
+          nullable: true
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        isOnline:
+          description: Признак "Сейчас Онлайн"
+          type: boolean
+        lastSeen:
+          description: Последний раз был в сети
+          type: string
+          format: date-time
+          nullable: true
+          example: "2017-07-21T17:32:28Z"
+        isSubscribed:
+          description: Признак "Подписан на этого пользователя"
+          type: boolean
+        subscriptionsCount:
+          description: Количество подписок у пользователя
+          type: integer
+          example: 114
+        followersCount:
+          description: Количество подписчиков у пользователя
+          type: integer
+          example: 162
+          
+    UpdateUserProfileRq:
+      description: Данные для обновления профиля пользователя
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          description: Имя
+          type: string
+          maxLength: 125
+          example: "John McClane"
+        username:
+          description: Имя пользователя (логин)
+          type: string
+          maxLength: 30
+          example: "die_hard_007"
+        birthDate:
+          description: Дата рождения пользователя
+          type: string
+          format: date
+          example: "2023-02-25"
+        sex:
+          $ref: '#/components/schemas/Sex'
+        city:
+          description: Город
+          type: string
+          maxLength: 50
+          example: "Барнаул"
+        userStatus:
+          description: Пользовательский статус
+          type: string
+          maxLength: 50
+          example: "В Турции! Кому пахлавы привезти?)"
+        about:
+          description: Информация о себе
+          type: string
+          maxLength: 150
+          example: "Фыва, пролдж и тот еще йцукен"
+        photo:
+          description: Фото пользователя (аватар)
+          type: string
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+    
+    Sex:
+      description: Пол пользователя
+      type: string
+      enum:
+        - Male
+        - Female
+
+    UsersListRp:
+      description: Список пользователей
+      type: object
+      additionalProperties: false
+      required:
+        - clients
+      properties:
+        totalCount:
+          description: Общее количество найденных пользователей
+          type: integer
+          example: 100
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserListView'
+
+    UserListView:
+      description: Краткая информация о пользователе (списочное представление)
+      type: object
+      additionalProperties: false
+      required: 
+        - userId
+        - name
+        - username
+      properties:
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        name:
+          description: Имя
+          type: string
+          maxLength: 125
+          example: "John McClane"
+        username:
+          description: Имя пользователя (логин)
+          type: string
+          maxLength: 30
+          example: "die_hard_007"
+        photo:
+          description: Фото пользователя (аватар)
+          type: string
+          format: uri
+          nullable: true
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        isOnline:
+          description: Признак "Сейчас Онлайн"
+          type: boolean
+        lastSeen:
+          description: Последний раз был в сети
+          type: string
+          format: date-time
+          nullable: true
+          example: "2017-07-21T17:32:28Z"
+        isSubscribed:
+          description: Признак "Подписан на этого пользователя"
+          type: boolean
+        followersCount:
+          description: Количество подписчиков у пользователя
+          type: integer
+          example: 162
+    
+    NewSubscriptionRp:
+      description: Данные созданной подписки
+      type: object
+      additionalProperties: false
+      required: 
+        - subscriptionId
+      properties:
+        subscriptionId:
+          description: Идентификатор подписки
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+
+    NewPostRq:
+      description: Данные для создания поста
+      type: object
+      additionalProperties: false
+      required:
+        - userId
+        - title
+      properties:
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        title:
+          description: Заголовок
+          type: string
+          maxLength: 100
+          example: "Пять причин, почему вам стоит посетить Катманду"
+        text:
+          description: Текст поста
+          type: string
+          maxLength: 2200
+          example: "Первая причина - это ты, а вторая - все твои мечты... Лорем ипсум долор сит амет, но доцтус вереар нам, ерудити аппетере елецтрам сед цу."
+        photo:
+          description: Фото поста
+          type: array
+          nullable: true
+          maxItems: 10
+          items:
+            type: string
+            format: uri
+            example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        locationId:
+          description: Id места путешествия
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+          
+    NewPostRp:
+      description: Блок с описанием параметров созданного поста
+      type: object
+      additionalProperties: false
+      required:
+        - postId
+      properties:
+        postId:
+          description: Идентификатор созданного поста
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+
+    Post:
+      description: Пост
+      type: object
+      additionalProperties: false
+      required: 
+        - postId
+        - userId
+        - userName
+        - userUsername
+        - title
+        - createdAt
+      properties:
+        postId:
+          description: Id поста
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        userName:
+          description: Имя пользователя
+          type: string
+          maxLength: 125
+          example: "John McClane"
+        userUsername:
+          description: Логин пользователя
+          type: string
+          maxLength: 30
+          example: "die_hard_007"
+        userPhoto:
+          description: Фото пользователя (аватар)
+          type: string
+          format: uri
+          nullable: true
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        title:
+          description: Заголовок
+          type: string
+          maxLength: 100
+          example: "Пять причин, почему вам стоит посетить Катманду"
+        text:
+          description: Текст поста
+          type: string
+          maxLength: 2200
+          example: "Первая причина - это ты, а вторая - все твои мечты... Лорем ипсум долор сит амет, но доцтус вереар нам, ерудити аппетере елецтрам сед цу."
+        photo:
+          description: Фото поста
+          type: array
+          nullable: true
+          maxItems: 10
+          items:
+            type: string
+            format: uri
+            example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        locationId:
+          description: Id места путешествия
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        locationName:
+          description: Наименование места путешествия
+          type: string
+          maxLength: 100
+          example: "Ступа Боднатх"
+        createdAt:
+          description: Создан
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        isEditable:
+          description: Признак "Может быть отредактирован"
+          type: boolean
+        isReacted:
+          description: Признак "Пользователь уже поставил реакцию"
+          type: boolean
+        reactionType:
+          $ref: '#/components/schemas/reactionType'
+        reactionsCount:
+          description: Количество реакций на пост
+          type: integer
+          example: 126
+        commentsCount:
+          description: Количество комментариев на пост
+          type: integer
+          example: 162
+    
+    UpdatePostRq:
+      description: Данные для изменения данных поста
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          description: Заголовок
+          type: string
+          maxLength: 100
+          example: "Пять причин, почему вам стоит посетить Катманду"
+        text:
+          description: Текст поста
+          type: string
+          maxLength: 2200
+          example: "Первая причина - это ты, а вторая - все твои мечты... Лорем ипсум долор сит амет, но доцтус вереар нам, ерудити аппетере елецтрам сед цу."
+        photo:
+          description: Фото поста
+          type: array
+          nullable: true
+          maxItems: 10
+          items:
+            type: string
+            format: uri
+            example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        locationId:
+          description: Id места путешествия
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+    
+    FeedRp:
+      description: Лента постов
+      type: object
+      additionalProperties: false
+      required:
+        - posts
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+   
+    reactionType:
+      description: Тип реакции
+      type: string
+      enum:
+        -	like
+        - dislike
+        - love
+        - haha
+        - sad
+    
+    ReactionsRp:
+      description: Список реакций на пост
+      type: object
+      additionalProperties: false
+      required:
+        - totalReactionsCount
+        - reactions
+      properties:
+        totalReactionsCount:
+          description: Количество реакций на пост всего
+          type: integer
+          example: 1260
+        likeReactionsCount:
+          description: Количество реакций like на пост
+          type: integer
+          example: 917
+        dislikeReactionsCount:
+          description: Количество реакций dislike на пост
+          type: integer
+          example: 151
+        loveReactionsCount:
+          description: Количество реакций love на пост
+          type: integer
+          example: 177
+        hahaReactionsCount:
+          description: Количество реакций haha на пост
+          type: integer
+          example: 12
+        sadReactionsCount:
+          description: Количество реакций sad на пост
+          type: integer
+          example: 3
+        reactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reaction'
+    
+    Reaction:
+      description: Реакция
+      type: object
+      additionalProperties: false
+      required: 
+        - reactionId
+        - postId
+        - userId
+        - userName
+        - userUsername
+        - reactionType
+      properties:
+        reactionId:
+          description: Id реакции
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        postId:
+          description: Id поста
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        userName:
+          description: Имя пользователя
+          type: string
+          maxLength: 125
+          example: "John McClane"
+        userUsername:
+          description: Логин пользователя
+          type: string
+          maxLength: 30
+          example: "die_hard_007"
+        userPhoto:
+          description: Фото пользователя (аватар)
+          type: string
+          format: uri
+          nullable: true
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        reactionType:
+          $ref: '#/components/schemas/reactionType'
+          
+    NewReactionRq:
+      description: Данные для создания реакции на пост
+      type: object
+      additionalProperties: false
+      required:
+        - userId
+        - reactionType
+      properties:
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        reactionType:
+          $ref: '#/components/schemas/reactionType'
+          
+    NewReactionRp:
+      description: Блок с описанием параметров созданной реакции на пост
+      type: object
+      additionalProperties: false
+      required:
+        - reactionId
+      properties:
+        reactionId:
+          description: Идентификатор созданной реакции на пост
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+ 
+    CommentsRp:
+      description: Список комментариев к посту
+      type: object
+      additionalProperties: false
+      required:
+        - comments
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+            
+    Comment:
+      description: Комментарий
+      type: object
+      additionalProperties: false
+      required: 
+        - commentId
+        - postId
+        - userId
+        - userName
+        - userUsername
+        - text
+        - createdAt
+      properties:
+        commentId:
+          description: Id комментария
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        postId:
+          description: Id поста
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        userName:
+          description: Имя пользователя
+          type: string
+          maxLength: 125
+          example: "John McClane"
+        userUsername:
+          description: Логин пользователя
+          type: string
+          maxLength: 30
+          example: "die_hard_007"
+        userPhoto:
+          description: Фото пользователя (аватар)
+          type: string
+          format: uri
+          nullable: true
+          example: "https://4travelers-bucket.s3.cis.s3-domain.com/media/example.jpg"
+        text:
+          description: Текст комментария
+          type: string
+          maxLength: 600
+          example: "Спасибо за интересный пост! Мне понравилось это место. Когда-нибудь обязательно туда съездим всей семьей!"
+        createdAt:
+          description: Создан
+          type: string
+          format: date-time
+          example: "2017-07-21T17:32:28Z"
+        isEditable:
+          description: Признак "Может быть отредактирован"
+          type: boolean
+      
+    NewCommentRq:
+      description: Данные для создания комментария к посту
+      type: object
+      additionalProperties: false
+      required:
+        - userId
+        - text
+      properties:
+        userId:
+          description: Id пользователя
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        text:
+          description: Текст комментария
+          type: string
+          maxLength: 600
+          example: "Спасибо за интересный пост! Мне понравилось это место. Когда-нибудь обязательно туда съездим всей семьей!"
+          
+    NewCommentRp:
+      description: Блок с описанием параметров созданного комментария к посту
+      type: object
+      additionalProperties: false
+      required:
+        - commentId
+      properties:
+        commentId:
+          description: Идентификатор созданного комментария к посту
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+    
+    UpdateCommentRq:
+      description: Данные для изменения комментария к посту
+      type: object
+      additionalProperties: false
+      required:
+        - commentId
+        - text
+      properties:
+        commentId:
+          description: Id комментария
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        text:
+          description: Текст комментария
+          type: string
+          maxLength: 600
+          example: "Спасибо за интересный пост! Мне понравилось это место. Когда-нибудь обязательно туда съездим всей семьей!"
+          
+    LocationsRp:
+      description: Список мест для путешествий
+      type: object
+      additionalProperties: false
+      required:
+        - locations
+      properties:
+        totalCount:
+          description: Общее количество найденных мест путешествий
+          type: integer
+          example: 100
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+            
+    Location:
+      description: Место путешествия
+      type: object
+      additionalProperties: false
+      required:
+        - locationId
+        - name
+        - category
+        - latitude
+        - longitude
+      properties:
+        locationId:
+          description: Id места путешествия
+          type: string
+          format: uuid
+          example: "b6602aa1-c623-4616-ab0d-37a8957f7935"
+        name:
+          description: Наименование места путешествия
+          type: string
+          maxLength: 100
+          example: "Ступа Боднатх"
+        category:
+          description: Категория
+          type: string
+          maxLength: 50
+          example: "Храмовый комплекс"
+        country:
+          description: Страна
+          type: string
+          maxLength: 65
+          example: "Непал"
+        latitude:
+          description: Широта
+          type: string
+          example: "27.7227"
+        longitude:
+          description: Долгота
+          type: string
+          example: "85.3641"
+        mentionsCount:
+          description: Количество упоминаний в постах
+          type: integer
+          example: 1260
