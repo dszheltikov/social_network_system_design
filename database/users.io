@@ -1,6 +1,7 @@
 // БД сервиса Users Service
 // Хранит данные профилей пользователей
 // PostgreSQL
+
 Table users {
   id uuid [primary key]
   name varchar
