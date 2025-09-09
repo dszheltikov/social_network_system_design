@@ -1,5 +1,6 @@
 // S3 storage (e.g. Minio)
 //Хранит фото профилей пользователей и медиа постов
+
 Table media {
  key varchar
  bucket varchar
