@@ -1,6 +1,7 @@
 // БД сервиса Subscriptions Service
 // Хранит данные подписок
 // PostgreSQL
+
 Table subscriptions {
   subscription_user_id uuid
   follower_user_id uuid
