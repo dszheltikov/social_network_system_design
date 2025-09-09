@@ -1,6 +1,7 @@
 // БД сервиса Posts Service
 // Хранит данные постов
 // PostgreSQL
+
 Table posts {
   id uuid [primary key]
   user_id uuid [not null]
