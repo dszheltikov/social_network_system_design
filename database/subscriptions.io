@@ -1,6 +1,9 @@
 // БД сервиса Subscriptions Service
 // Хранит данные подписок
-// PostgreSQL
+// СУБД PostgreSQL
+// Будет использоваться асинхронная (в приоритете производительность) master-slave репликация
+// Replication factor = 3
+// Шардирование не требуется (объем данных и количество запросов/IOPS позволяют не шардироваться).
 
 Table subscriptions {
   subscription_user_id uuid
