@@ -1,6 +1,9 @@
 // БД сервиса Reactions Service
 // Хранит данные реакций на посты
-// PostgreSQL
+// СУБД PostgreSQL
+// Будет использоваться асинхронная (в приоритете производительность) master-slave репликация
+// Replication factor = 3
+// Шардирование - key based по id поста (все реакции на один пост пишутся в один и тот же шард).
 
 Table reactions  {
   id uuid [primary key]

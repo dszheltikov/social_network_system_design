@@ -1,6 +1,9 @@
 // БД сервиса Comments Service
 // Хранит данные комментариев к постам
-// PostgreSQL
+// СУБД PostgreSQL
+// Будет использоваться асинхронная (в приоритете производительность) master-slave репликация
+// Replication factor = 3
+// Шардирование - key based по id поста (все комментарии на один пост пишутся в один и тот же шард).
 
 Table comments  {
   id uuid [primary key]
