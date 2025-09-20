@@ -1,1 +1,170 @@
-
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="DESCRIPTION" height="906px" preserveAspectRatio="none" style="width:410px;height:906px;background:#FFFFFF;" version="1.1" viewBox="0 0 410 906" width="410px" zoomAndPan="magnify">
+  <defs/>
+  <g>
+<!--entity user-->
+    <g class="entity" data-entity="user" data-source-line="379" data-uid="ent0002" id="entity_user">
+      <rect fill="#08427B" height="269.5829" style="stroke:#073B6F;stroke-width:0.5;" width="215.4736" x="96.21" y="7"/>
+      <image height="52" width="52" x="178.1007" xlink:href="data:image/png;base64,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" y="17"/>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="129.3906" x="139.2515" y="83.5439">Пользователь</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="201.7217" y="100.3124"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="79.0029" x="137.6827" y="116.6093">Публикует</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="216.6856" y="116.6093"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49.0752" x="221.1358" y="116.6093">посты,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78.5107" x="136.9751" y="132.9062">загружает</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="215.4859" y="132.9062"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="50.9824" x="219.9361" y="132.9062">медиа,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113.1826" x="122.1685" y="149.203">просматривает</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="235.3511" y="149.203"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45.9238" x="239.8013" y="149.203">ленты</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54.8379" x="106.8423" y="165.4999">постов,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="161.6802" y="165.4999"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65.7207" x="166.1304" y="165.4999">профили</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="231.8511" y="165.4999"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="9.0986" x="236.3013" y="165.4999">и</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="245.3999" y="165.4999"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51.2012" x="249.8501" y="165.4999">списки</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115.6367" x="146.1285" y="181.7968">пользователей,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114.1191" x="107.7754" y="198.0937">подписывается</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="221.8946" y="198.0937"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="17.7324" x="226.3448" y="198.0937">на</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="244.0772" y="198.0937"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51.5908" x="248.5274" y="198.0937">других</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115.6367" x="106.21" y="214.3905">пользователей,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="221.8467" y="214.3905"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="75.3867" x="226.2969" y="214.3905">оставляет</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62.2617" x="113.9517" y="230.6874">реакции</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="176.2134" y="230.6874"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="9.0986" x="180.6636" y="230.6874">и</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="189.7622" y="230.6874"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99.7295" x="194.2124" y="230.6874">комментарии</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="17.7324" x="106.7876" y="246.9843">на</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="124.5201" y="246.9843"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49.0752" x="128.9703" y="246.9843">посты,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="178.0454" y="246.9843"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39.0537" x="182.4956" y="246.9843">ищет</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="221.5494" y="246.9843"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43.6064" x="225.9996" y="246.9843">места</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="269.606" y="246.9843"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="27.0498" x="274.0562" y="246.9843">для</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97.9316" x="154.981" y="263.2812">путешествий</text>
+    </g>
+<!--entity 4travelers-->
+    <g class="entity" data-entity="4travelers" data-source-line="398" data-uid="ent0003" id="entity_4travelers">
+      <rect fill="#1168BD" height="234.1875" style="stroke:#3C7FC0;stroke-width:0.5;" width="215.8975" x="7" y="379.59"/>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="84.6328" x="37.8979" y="404.4416">Travelers</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="5.5703" x="122.5308" y="404.4416"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="63.8984" x="128.1011" y="404.4416">Journal</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="112.7236" y="421.2101"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88.9014" x="36.1646" y="437.507">Социальная</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="125.0659" y="437.507"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="32.7168" x="129.5161" y="437.507">сеть</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="162.2329" y="437.507"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="27.0498" x="166.6831" y="437.507">для</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="145.7422" x="42.0776" y="453.8039">путешественников:</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88.2041" x="41.2026" y="470.1007">публикация</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="129.4067" y="470.1007"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54.8379" x="133.8569" y="470.1007">постов,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.4717" x="24.8818" y="486.3976">просмотр</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="95.3535" y="486.3976"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45.9238" x="99.8037" y="486.3976">ленты</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="145.7275" y="486.3976"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54.8379" x="150.1777" y="486.3976">постов,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.4717" x="33.5464" y="502.6945">просмотр</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="104.0181" y="502.6945"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="74.334" x="108.4683" y="502.6945">профилей</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="182.8022" y="502.6945"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="9.0986" x="187.2524" y="502.6945">и</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58.9189" x="25.4458" y="518.9914">списков</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="84.3647" y="518.9914"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115.6367" x="88.8149" y="518.9914">пользователей,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.9023" x="68.4063" y="535.2882">подписки</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="139.3086" y="535.2882"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="17.7324" x="143.7588" y="535.2882">на</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115.6367" x="17" y="551.5851">пользователей,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="132.6367" y="551.5851"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62.2617" x="137.0869" y="551.5851">реакции</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="199.3486" y="551.5851"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="9.0986" x="203.7988" y="551.5851">и</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99.7295" x="27.23" y="567.882">комментарии</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="126.9595" y="567.882"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="17.7324" x="131.4097" y="567.882">на</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="149.1421" y="567.882"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49.0752" x="153.5923" y="567.882">посты,</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="42.9707" x="26.5464" y="584.1789">поиск</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="69.5171" y="584.1789"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.9063" x="73.9673" y="584.1789">популярных</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="163.8735" y="584.1789"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="35.0273" x="168.3237" y="584.1789">мест</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="97.9316" x="65.9829" y="600.4757">путешествий</text>
+    </g>
+<!--entity cdn-->
+    <g class="entity" data-entity="cdn" data-source-line="413" data-uid="ent0004" id="entity_cdn">
+      <rect fill="#999999" height="87.5156" style="stroke:#8A8A8A;stroke-width:0.5;" width="132.458" x="137.72" y="702.77"/>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="38.4141" x="184.742" y="727.6216">CDN</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="201.7239" y="744.3901"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59.5752" x="148.6702" y="760.687">Раздача</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="208.2454" y="760.687"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="46.5322" x="212.6956" y="760.687">медиа</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="112.458" x="147.72" y="776.9839">пользователям</text>
+    </g>
+<!--link user to 4travelers-->
+    <g class="link" data-entity-1="user" data-entity-2="4travelers" data-source-line="1773" data-uid="lnk5" id="link_user_4travelers">
+      <path d="M153.43,276.68 C150.34,286.74 147.47,296.78 144.95,306.59 C138.97,329.85 135.3142,347.152 131.2242,371.332" fill="none" id="user-to-4travelers" style="stroke:#666666;stroke-width:1;"/>
+      <polygon fill="#666666" points="129.89,379.22,134.1822,371.8324,128.2662,370.8317,129.89,379.22" style="stroke:#666666;stroke-width:1;"/>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="48.252" x="145.95" y="318.7287">Читает</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="4.1777" x="194.202" y="318.7287"> </text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="8.4082" x="198.3797" y="318.7287">и</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="4.1777" x="206.7879" y="318.7287"> </text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="55.2129" x="210.9656" y="318.7287">создает</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="55.0195" x="178.5545" y="332.6974">контент</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="47.9004" x="182.1141" y="346.6662">[HTTPS]</text>
+    </g>
+<!--link user to cdn-->
+    <g class="link" data-entity-1="user" data-entity-2="cdn" data-source-line="1773" data-uid="lnk6" id="link_user_cdn">
+      <path d="M263.58,276.93 C266.51,286.84 269.02,296.79 270.95,306.59 C302.35,466.28 330.12,521.16 270.95,672.77 C266.77,683.49 265.257,687.3975 257.817,696.4575" fill="none" id="user-to-cdn" style="stroke:#666666;stroke-width:1;"/>
+      <polygon fill="#666666" points="252.74,702.64,260.1355,698.3614,255.4986,694.5536,252.74,702.64" style="stroke:#666666;stroke-width:1;"/>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="48.252" x="305.95" y="494.3187">Читает</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="4.1777" x="354.202" y="494.3187"> </text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="44.1445" x="358.3797" y="494.3187">медиа</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="47.9004" x="330.2869" y="508.2874">[HTTPS]</text>
+    </g>
+<!--link 4travelers to cdn-->
+    <g class="link" data-entity-1="4travelers" data-entity-2="cdn" data-source-line="1773" data-uid="lnk7" id="link_4travelers_cdn">
+      <path d="M124.58,614.24 C128.75,634.32 134.64,654.57 142.95,672.77 C147.67,683.12 149.3694,686.8644 156.4994,696.0344" fill="none" id="4travelers-to-cdn" style="stroke:#666666;stroke-width:1;"/>
+      <polygon fill="#666666" points="161.41,702.35,158.8678,694.193,154.1311,697.8759,161.41,702.35" style="stroke:#666666;stroke-width:1;"/>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="74.4375" x="143.95" y="655.9087">Загружает</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="4.1777" x="218.3875" y="655.9087"> </text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="44.1445" x="222.5652" y="655.9087">медиа</text>
+      <text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="47.9004" x="181.3797" y="669.8774">[HTTPS]</text>
+    </g>
+    <g class="legend" data-source-line="1569">
+      <rect fill="none" height="16.2969" style="stroke:none;stroke-width:1;" width="143.1172" x="236.407" y="814.2856"/>
+      <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="57.9209" x="236.407" y="827.2807">Legend</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="299.202" y="827.2807"> </text>
+      <rect fill="#08427B" height="16.2969" style="stroke:none;stroke-width:1;" width="143.1172" x="236.407" y="830.5825"/>
+      <text fill="#073B6F" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="7.7041" x="240.8572" y="843.5776">▯</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="248.5613" y="843.5776"> </text>
+      <image height="13" width="13" x="253.0115" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAyUlEQVR4XmPgcKpmQMeywW0hfhULovk96hXQ5UAYQ+DTt5//kUHX0gPv0NWgcAwSJmSj6IACvJqaF+ytR9cAAirhXeY4NenF96egawABvDaB8PM3n1A01Mzeid9PMCzp1+ziWTw3mse1lh9dDkWTVECL+xdoyB26cP9/w9zd9568+gDm33v69j+3Sy0PiiaQichOwgVQNF2++xxdHivwKpm3Ba4JXRIXmLbu2Am4pqv3XqLLYwVB1YtWogQEn3udED7M61YnCFMLAFS9bYWccBSaAAAAAElFTkSuQmCC" y="833.9563"/>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.9883" x="274.835" y="843.5776">person</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="327.2735" y="843.5776"> </text>
+      <rect fill="#1168BD" height="16.2969" style="stroke:none;stroke-width:1;" width="143.1172" x="236.407" y="846.8794"/>
+      <text fill="#3C7FC0" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="7.7041" x="240.8572" y="859.8745">▯</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="248.5613" y="859.8745"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="50.6133" x="257.4617" y="859.8745">system</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="312.5252" y="859.8745"> </text>
+      <rect fill="#999999" height="16.2969" style="stroke:none;stroke-width:1;" width="143.1172" x="236.407" y="863.1763"/>
+      <text fill="#8A8A8A" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="7.7041" x="240.8572" y="876.1714">▯</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="248.5613" y="876.1714"> </text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113.1621" x="257.4617" y="876.1714">external system</text>
+      <text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="4.4502" x="375.074" y="876.1714"> </text>
+      <line style="stroke:none;stroke-width:1;" x1="236.407" x2="379.5242" y1="814.2856" y2="814.2856"/>
+      <line style="stroke:none;stroke-width:1;" x1="236.407" x2="379.5242" y1="830.5825" y2="830.5825"/>
+      <line style="stroke:none;stroke-width:1;" x1="236.407" x2="379.5242" y1="846.8794" y2="846.8794"/>
+      <line style="stroke:none;stroke-width:1;" x1="236.407" x2="379.5242" y1="863.1763" y2="863.1763"/>
+      <line style="stroke:none;stroke-width:1;" x1="236.407" x2="379.5242" y1="879.4731" y2="879.4731"/>
+      <line style="stroke:none;stroke-width:1;" x1="236.407" x2="236.407" y1="814.2856" y2="879.4731"/>
+      <line style="stroke:none;stroke-width:1;" x1="379.5242" x2="379.5242" y1="814.2856" y2="879.4731"/>
+    </g>
+<!--SRC=[fLFBRjf05Dtp5IwREXB1cwooGu0QLPIWGbHrXHom6YHZa3rkqnqbVOf8MNRPTfMjGw1nU9XVcFcZdZk3NHS5Mga2pFLzd7lkFJEFEaxBzjkMTiPOtpiq3DTyat_LOMV-gUzPRgldCCjX-LQlQ_Hjqs5-rzxtMDlkd1h5W_qQkKwULOokwJ7BXQjPf8fpbkyZCvDvN2cyF3vfD2k5QgbUBDJA-bucKxDSh-VeX9_JilmRZ_XSNF8x_8zv88PyIkzP6HCN_8RFUSXdiAPYgF4LZyGxCHIZd8QIWD-A0K8_OSdm0jKJv0S8hyI0ak43AkoGy5NQ76bBGaa0gNjIynwvwAhXY_eL3_6SqVlg8RButUTKRAAInIXk1VjAuqiUQ7mYcTuY_c4taE8Jm3yNLv8lI4tXc8cF82PfWKw4mHPg3W0CL4HsIkye55-IpIXSC25WclM2-ehFwyWO4FTPA5H_2pcx-W5ppTUM3RcWHIEsjQSzttLCMmhq0vs8Ko27GNFWObSq-EMEFY2DJoY761_AZ5XdG01GbZqW38aPaPX_bJ2LcTOK6zvG5KN_hAiw1F6EjrNyXrg4Aliea_Q25I9zAKPqRDOYRjTEITSidpEzrNPocfOjbgfIgk-WT8T10l69kYONPSieE7aBEWlFBNjzLVyu3lmQF8VnTP8BZHIyyj30Iuc49_K_QZHgTG3-nfFyDe0ILfibwURhmgyxRd-wF5C_EdxHh9IVbAibVUyN]-->
+  </g>
+</svg>
