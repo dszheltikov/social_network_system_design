@@ -1,0 +1,162 @@
+@startuml
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+'!NEW_C4_STYLE=1
+'LAYOUT_LANDSCAPE()
+
+Person(user, "Пользователь", "Публикует посты, загружает медиа, просматривает ленты постов, профили и списки пользователей, подписывается на других пользователей, оставляет реакции и комментарии на посты, ищет места для путешествий")
+
+System_Boundary(c1, 'Travelers Journal') {
+    'Клиентские приложения:
+    Container(web_app, "Web Application", "React", "Предоставляет пользовательский интерфейс для взаимодействия с социальной сетью")
+    Container(mobile_app, "Mobile Application", "iOS/Android", "Предоставляет пользовательский интерфейс для взаимодействия с социальной сетью")
+    
+    'Load Balancer:
+    Container(lb, "Load Balancer", "Nginx", "Балансировка нагрузки")
+
+    'API Gateway:
+    Container(api_gw_mp, "API Gateway / BFF Mobile", "Java, Spring", "Аутентификация, rate‑limit, routing, исключение over‑fetching")
+    Container(api_gw, "API Gateway / BFF Web", "Java, Spring", "Аутентификация, rate‑limit, routing, исключение over‑fetching")
+    
+    'Медиа:
+    Container(media, "Media Service", "Java, Spring", "Проверка требований к загружаемым медиа, обработка/сжатие медиа, сохранение медиа в объектном хранилище")
+    Container(minio, "Object Storage", "MinIO", "S3-совместимое объектное хранилище для хранения медиа") 
+    Container(flink_media, "Media Events Processor", "Apache Flink", "Анализ событий, требущих изменения состояния в объектном хранилище. Перекладывает медиа между бакетами из временного хранения в постоянное при создании поста. Удаляет медиа при удалении поста/фото из поста; при удалении/изменении фото профиля пользователя")
+
+    'Identity Provider:
+    Container(idp, "Authentication Service", "KeyCloak", "Identity Provider: создание, хранение и управление УЗ пользователей, аутентификация") 
+
+    'Integration Bus:
+    ContainerQueue(kafka, "Integration Bus", "Kafka", "Интеграционаня шина системы")
+
+    'Компоненты контекста пользователей:
+    Container(activity, "Activity Service", "Java, Spring", "Принимает и фиксирует данные по активностям пользователей")
+    Container(flink_users, "Users Stream Processor", "Apache Flink", "Расчет агрегированных данных пользователей, стриминг агрегированных и дополнительных данных пользователей в Redis и Users Service")
+    ContainerDb(additional_users_db, "Additional DB for Users information", "Redis", "Хранит агрегированные и дополнительные данные по пользователям")
+    Container(users, "Users Service", "Java, Spring", "Сервис профилей пользователей. Предоставляет API для чтения/изменения профилей пользователей. Публикует в Kafka данные профиля пользователя при его изменении")
+    ContainerDb(users_db, "Users DB", "PostgreSQL", "Хранение профилей пользователей")
+    Container(subscriptions, "Subscriptions Service", "Java, Spring", "Сервис подписок. Предоставляет API для чтения и создания подписки/отписки пользователей. Публикует в Kafka данные по событиям подписки/отписки")
+    ContainerDb(subscriptions_db, "Subscriptions DB", "PostgreSQL", "Хранит подписки пользователей")
+    Container(users_composition, "Users Composition", "Java, Spring", "Сервис, содержащий бизнес-логику по сборке данных пользователей/ списков пользователей по запросу со стороны клиентских приложений (паттерн API Composition)")
+    Container(users_lists, "Users Lists Service", "Java, Spring", "Сервис списков пользователей. Содержит бизнес-логику по предварительному формированию списков пользователей (популярные пользователи, подписки пользователя, подписчики пользователя)")
+    ContainerDb(users_lists_db, "Users Lists DB", "Redis", "Хранит предподготовленные списки пользователей")
+
+    'Компоненты контекста постов:
+    Container(posts, "Posts Service", "Java, Spring", "Сервис постов. Предоставляет API для чтения/создания/изменения/удаления постов. Публикует в Kafka данные постов при создании/изменении/удалении поста")
+    ContainerDb(posts_db, "Posts DB", "PostgreSQL", "Хранит посты")
+    Container(reactions, "Reactions Service", "Java, Spring", "Сервис реакций. Предоставляет API для чтения/создания/удаления реакций на пост. Публикует в Kafka данные при создании/удалении реакции")
+    ContainerDb(reactions_db, "Reactions DB", "PostgreSQL", "Хранит реакции на посты")
+    Container(comments, "Comments Service", "Java, Spring", "Сервис комментариев. Предоставляет API для чтения/создания/изменения/удаления комментариев к посту. Публикует в Kafka данные при создании/изменении/удалении комментария")
+    ContainerDb(comments_db, "Comments DB", "PostgreSQL", "Хранит комментарии к постам")
+    Container(locations, "Locations Service", "Java, Spring", "Сервис мест путешествий. Предоставляет API для чтения мест путешествий. Публикует в Kafka данные при создании/изменении/ удалении места путешествия")
+    ContainerDb(locations_db, "Locations DB", "PostgreSQL", "Хранит места путешествий")
+    Container(posts_composition, "Posts Composition", "Java, Spring", "Сервис, содержащий бизнес-логику по сборке постов / лент постов по запросу со стороны клиентских приложений (паттерн API Composition)")
+    Container(feed, "Feed Service", "Java, Spring", "Сервис лент постов. Содержит бизнес-логику по предварительному формированию лент постов (лента постов пользователя / лента по подпискам / лента по местам путешествий)")
+    ContainerDb(feed_db, "Feed DB", "Redis", "Хранит предподготовленные ленты постов")
+    Container(flink_posts, "Posts Stream Processor", "Apache Flink", "Расчет агрегированных данных по постам, реакциям и комментариям. Стриминг агрегированных и дополнительных данных по постам, реакциям и комментариям в Redis")
+    ContainerDb(additional_posts_db, "Additional DB for Posts information", "Redis", "Хранит агрегированные и дополнительные данные по постам, реакциям и комментариям")
+}
+
+Container_Ext(cdn,  "CDN", "External", "Раздача медиа пользователям")
+
+Rel(user, web_app, "Использует", "HTTPS")
+Rel(user, mobile_app, "Использует", "HTTPS")
+
+Rel(web_app, lb, "", "REST, HTTPS")
+Rel(mobile_app, lb, "", "REST, HTTPS")
+
+Rel(lb, api_gw, "", "REST, HTTPS")
+Rel(lb, api_gw_mp, "", "REST, HTTPS")
+
+Rel(api_gw, media, "Загружает медиа", "gRPC/HTTP")
+Rel(api_gw_mp, media, "Загружает медиа", "gRPC/HTTP")
+
+Rel(media, minio, "Сохраняет медиа", "S3 API, HTTPS")
+Rel(cdn, minio, "Запрашивает медиа (Origin Pull)", "HTTPS")
+
+Rel(flink_media, kafka, "Получает информацию о создании/изменении/удалении поста", "Kafka Protocol over TCP")
+Rel(flink_media, kafka, "Получает информацию об изменении профиля пользователя", "Kafka Protocol over TCP")
+Rel(flink_media, minio, "Перекладывает медиа между бакетами/удаляет медиа", "S3 API, HTTPS")
+
+Rel(web_app, cdn, "Запрашивает медиа", "HTTPS")
+Rel(mobile_app, cdn, "Запрашивает медиа", "HTTPS")
+
+Rel(api_gw, idp, "Аутентификация, валидация JWT, refresh", "REST, HTTPS")
+Rel(api_gw_mp, idp, "Аутентификация, валидация JWT, refresh", "REST, HTTPS")
+
+Rel(api_gw, activity, "Передает информацию об активности пользователя", "gRPC/HTTP")
+Rel(api_gw_mp, activity, "Передает информацию об активности пользователя", "gRPC/HTTP")
+
+Rel(activity, kafka, "Сохраняет информацию об активности пользователя", "Kafka Protocol over TCP")
+Rel(flink_users, kafka, "Получает информацию об активности пользователя", "Kafka Protocol over TCP")
+Rel(flink_users, additional_users_db, "Сохраняет/обновляет информацию об активности пользователя", "RESP")
+Rel(flink_users, users, "Сохраняет last_seen в данные пользователя", "gRPC/HTTP")
+
+Rel(api_gw, users, "Изменение профиля пользователя", "gRPC/HTTP")
+Rel(api_gw_mp, users, "Изменение профиля пользователя", "gRPC/HTTP")
+
+Rel(api_gw, subscriptions, "Подписаться/Отписаться", "gRPC/HTTP")
+Rel(api_gw_mp, subscriptions, "Подписаться/Отписаться", "gRPC/HTTP")
+
+Rel(api_gw, users_composition, "Запрашивает данные по пользователям/спискам пользователей", "gRPC/HTTP")
+Rel(api_gw_mp, users_composition, "Запрашивает данные по пользователям/спискам пользователей", "gRPC/HTTP")
+
+Rel(users_composition, users, "Запрашивает данные профилей пользователей", "gRPC/HTTP")
+Rel(users_composition, additional_users_db, "Запрашивает агрегированные и дополнительные данные по пользователям", "RESP")
+Rel(users_composition, subscriptions, "Запрашивает данные по подпискам", "gRPC/HTTP")
+Rel(users_composition, users_lists, "Запрашивает предварительно подготовленные списки пользователей", "gRPC/HTTP")
+
+Rel(users, kafka, "Сохраняет информацию об изменении профиля пользователя", "Kafka Protocol over TCP")
+Rel(users_lists, kafka, "Получает информацию об изменении профиля пользователя", "Kafka Protocol over TCP")
+Rel(feed, kafka, "Получает информацию об изменении профиля пользователя для обновления данных в лентах", "Kafka Protocol over TCP")
+
+Rel(posts_composition, users, "Запрашивает данные профилей пользователей", "gRPC/HTTP")
+
+Rel(subscriptions, kafka, "Сохраняет информацию о подписке/отписке пользователя", "Kafka Protocol over TCP")
+Rel(users_lists, kafka, "Получает информацию о подписке/отписке пользователя", "Kafka Protocol over TCP")
+Rel(feed, kafka, "Получает информацию о подписке/отписке пользователя для обновления данных в лентах", "Kafka Protocol over TCP")
+Rel(flink_users, kafka, "Получает информацию о подписке/отписке пользователя", "Kafka Protocol over TCP")
+Rel(flink_users, additional_users_db, "Сохраняет/обновляет информацию о количестве подпичиков/подписок пользователя, а также список подписчиков пользователя", "RESP")
+
+Rel(api_gw, posts, "Создание/изменение/ удаление поста", "gRPC/HTTP")
+Rel(api_gw_mp, posts, "Создание/изменение/ удаление поста", "gRPC/HTTP")
+Rel(api_gw, reactions, "Создание/удаление реакции", "gRPC/HTTP")
+Rel(api_gw_mp, reactions, "Создание/удаление реакции", "gRPC/HTTP")
+Rel(api_gw, comments, "Создание/изменение/удаление комментария", "gRPC/HTTP")
+Rel(api_gw_mp, comments, "Создание/изменение/удаление комментария", "gRPC/HTTP")
+Rel(api_gw, posts_composition, "Запрашивает данные постов/лент постов", "gRPC/HTTP")
+Rel(api_gw_mp, posts_composition, "Запрашивает данные постов/лент постов", "gRPC/HTTP")
+
+Rel(posts_composition, posts, "Запрашивает данные постов", "gRPC/HTTP")
+Rel(posts_composition, locations, "Запрашивает данные мест путешествий", "gRPC/HTTP")
+Rel(posts_composition, reactions, "Запрашивает данные по реакциям на пост", "gRPC/HTTP")
+Rel(posts_composition, comments, "Запрашивает данные по комментариям к посту", "gRPC/HTTP")
+Rel(posts_composition, additional_posts_db, "Запрашивает агрегированные и дополнительные данные по постам, реакциям и комментариям", "RESP")
+Rel(posts_composition, feed, "Запрашивает предварительно подготовленные ленты постов", "gRPC/HTTP")
+
+Rel(posts, kafka, "Сохраняет информацию о создании/изменении/ удалении поста", "Kafka Protocol over TCP")
+Rel(feed, kafka, "Получает информацию о создании/изменении/удалении поста для обновления данных в лентах", "Kafka Protocol over TCP")
+Rel(flink_posts, kafka, "Получает информацию о создании/изменении/удалении поста", "Kafka Protocol over TCP")
+Rel(flink_posts, additional_posts_db, "Сохраняет/обновляет информацию о количество упоминаний мест путешествий", "RESP")
+
+Rel(locations, kafka, "Сохраняет информацию о создании/изменении/ удалении места путешествия", "Kafka Protocol over TCP")
+Rel(feed, kafka, "Получает информацию о создании/изменении/удалении места путешествия для обновления данных в лентах", "Kafka Protocol over TCP")
+
+Rel(reactions, kafka, "Сохраняет информацию о создании/удалении реакции на пост", "Kafka Protocol over TCP")
+Rel(flink_posts, kafka, "Получает информацию о создании/удалении реакции на пост", "Kafka Protocol over TCP")
+Rel(flink_posts, additional_posts_db, "Сохраняет/обновляет информацию о количестве реакций на пост всего, количестве рекций по видам", "RESP")
+
+Rel(comments, kafka, "Сохраняет информацию о создании/изменении/ удалении комментария к посту", "Kafka Protocol over TCP")
+Rel(flink_posts, kafka, "Получает информацию о создании/изменении/удалении комментария к посту", "Kafka Protocol over TCP")
+Rel(flink_posts, additional_posts_db, "Сохраняет/обновляет информацию о количестве комментариев к посту", "RESP")
+
+Rel(users, users_db, "Читает/сохраняет данные", "JDBC")
+Rel(comments, comments_db, "Читает/сохраняет данные", "JDBC")
+Rel(feed, feed_db, "Читает/сохраняет данные", "RESP")
+Rel(locations, locations_db, "Читает данные", "JDBC")
+Rel(posts, posts_db, "Читает/сохраняет данные", "JDBC")
+Rel(reactions, reactions_db, "Читает/сохраняет данные", "JDBC")
+Rel(subscriptions, subscriptions_db, "Читает/сохраняет данные", "JDBC")
+Rel(users_lists, users_lists_db, "Читает/сохраняет данные", "RESP")
+
+SHOW_LEGEND()
+@enduml
